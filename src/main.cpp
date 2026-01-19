@@ -15,23 +15,25 @@ Adafruit_SSD1306 display(
   OLED_RESET
 );
 
+int i=0;
+
 void setup() {
   Wire.begin(21, 22);   // SDA, SCL
   display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR);
 
   display.clearDisplay();
-  display.setTextSize(1);
-  display.setTextColor(SSD1306_WHITE);
-  display.setCursor(0, 0);
-  display.println("Hello ESP32!");
-  display.setCursor(0,8);
-  display.println("Initalized Successfully!");
-
-  display.drawFastHLine(32,32,64,SSD1306_WHITE);  
-
-  display.drawLine(0,32,64,64,SSD1306_WHITE);
+  display.drawRoundRect(0,16,128,16,4,SSD1306_WHITE);
   display.display();
 }
 
 void loop() {
+  if(i<128){
+    i++;
+    display.fillRoundRect(1,17,i,14,4,SSD1306_WHITE);
+    display.display();
+    delay(100);
+  }
+  else{
+    while(1);
+  }
 }
