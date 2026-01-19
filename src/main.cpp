@@ -23,6 +23,10 @@ void setup() {
 
   display.clearDisplay();
   display.drawRoundRect(0,16,128,16,4,SSD1306_WHITE);
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
+  display.setCursor(0,0);
+  display.println("SSD1306 I2C Progress Bar");
   display.display();
 }
 
