@@ -1,43 +1,24 @@
 #include <Arduino.h>
-#include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
+#include <Ticker.h>
 
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 64
-#define OLED_RESET -1
-#define OLED_ADDR 0x3C
+#define LED 2
+#define LED_ONCE 4
 
-Adafruit_SSD1306 display(
-  SCREEN_WIDTH,
-  SCREEN_HEIGHT,
-  &Wire,
-  OLED_RESET
-);
+Ticker timer;
+Ticker timer_once;
 
-int i=0;
-
-void setup() {
-  Wire.begin(21, 22);   // SDA, SCL
-  display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR);
-
-  display.clearDisplay();
-  display.drawRoundRect(0,16,128,16,4,SSD1306_WHITE);
-  display.setTextSize(1);
-  display.setTextColor(SSD1306_WHITE);
-  display.setCursor(0,0);
-  display.println("SSD1306 I2C Progress Bar");
-  display.display();
+void toggle(int pin){
+  digitalWrite(pin, !digitalRead(pin));
 }
 
-void loop() {
-  if(i<128){
-    i++;
-    display.fillRoundRect(1,17,i,14,4,SSD1306_WHITE);
-    display.display();
-    delay(100);
-  }
-  else{
-    while(1);
-  }
+void setup(){
+  pinMode(LED,OUTPUT);
+  pinMode(LED_ONCE,OUTPUT);
+
+  timer.attach(1.0, toggle, LED); // Toggle LED every 1 second
+  timer_once.once(2.0, toggle, LED_ONCE); // Toggle LED_ON
+}
+
+void loop(){
+
 }
